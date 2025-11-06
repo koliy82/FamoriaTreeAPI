@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field, ConfigDict
 
 from app.database.mongo import braks
 from app.models.PyObjectId import PyObjectId
+from app.models.score import Score
 
 
 def parse_json(data):
@@ -21,11 +22,12 @@ class Brak(BaseModel):
     create_date: datetime
     baby_user_id: Optional[int] = None
     baby_create_date: Optional[datetime] = None
-    score: int
-    last_casino_play: datetime
-    last_grow_kid: datetime
-    last_hamster_update: datetime
-    tap_count: int
+    score: Score
+    subscribe_end: Optional[datetime] = None
+    # last_casino_play: datetime
+    # last_grow_kid: datetime
+    # last_hamster_update: datetime
+    # tap_count: int
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
         json_encoders={ObjectId: str},
@@ -38,11 +40,15 @@ class Brak(BaseModel):
                 "create_date": "1970-01-01T00:00:00",
                 "baby_user_id": 0,
                 "baby_create_date": "1970-01-01T00:00:00",
-                "score": 0,
-                "last_casino_play": "1970-01-01T00:00:00",
-                "last_grow_kid": "1970-01-01T00:00:00",
-                "last_hamster_update": "1970-01-01T00:00:00",
-                "tap_count": 0,
+                "score": {
+                    "mantissa":0,
+                    "exponent":0,
+                },
+                "subscribe_end": None,
+                # "last_casino_play": "1970-01-01T00:00:00",
+                # "last_grow_kid": "1970-01-01T00:00:00",
+                # "last_hamster_update": "1970-01-01T00:00:00",
+                # "tap_count": 0,
             }
         },
     )
@@ -51,6 +57,7 @@ class Brak(BaseModel):
     def from_mongo(cls, data: dict):
         if data is None:
             return None
+        print(data)
         return cls(**data)
 
     @classmethod
