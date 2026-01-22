@@ -7,7 +7,6 @@ from pydantic import BaseModel, Field, ConfigDict
 
 from app.database.mongo import braks
 from app.models.PyObjectId import PyObjectId
-from app.models.score import Score
 
 
 def parse_json(data):
@@ -22,7 +21,7 @@ class Brak(BaseModel):
     create_date: datetime
     baby_user_id: Optional[int] = None
     baby_create_date: Optional[datetime] = None
-    score: Score
+    score: int
     subscribe_end: Optional[datetime] = None
     # last_casino_play: datetime
     # last_grow_kid: datetime
